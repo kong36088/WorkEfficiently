@@ -6,7 +6,7 @@ if ( ! defined('BASEPATH')) exit('No direct script access allowed');
  * Date: 2016/9/18
  * Time: 23:59
  */
-class TD_Model extends CI_Model
+class WE_Model extends CI_Model
 {
 	public $table = '';
 	public $query_count = 0;

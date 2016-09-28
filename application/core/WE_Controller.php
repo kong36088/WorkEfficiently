@@ -12,7 +12,7 @@ if (!defined('BASEPATH')) exit('No direct script access allowed');
  * 核心控制器，负责前置操作
  * Class TD_Controller
  */
-class TD_Controller extends CI_Controller
+class WE_Controller extends CI_Controller
 {
 	public $user;
 
@@ -20,10 +20,10 @@ class TD_Controller extends CI_Controller
 	{
 		parent::__construct();
 
-		$this->user = $this->session->userdata('td_user');
+		$this->user = $this->session->userdata('we_user');
 
 		if (empty($this->user['username']) || $this->user['root'] != 1) {
-			$this->session->unset_userdata('td_user');
+			$this->session->unset_userdata('we_user');
 			redirect('/login/login');
 			return;
 		}

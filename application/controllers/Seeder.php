@@ -27,8 +27,8 @@ class Seeder extends CI_Controller
 		$this->load->model('user_model');
 		$salt = generateSalt();
 		$data = array(
-			'username' => 'william',
-			'password' => compile_pass('william', $salt),
+			'username' => 'root',
+			'password' => compile_pass('root', $salt),
 			'salt' => $salt,
 			'root' => 1,
 		);
