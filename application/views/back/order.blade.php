@@ -1,4 +1,4 @@
-@extends('back.layout.header')
+@extends('layout.header.blade.php.bak')
 
 @section('content')
 	<!--loading-->

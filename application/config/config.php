@@ -314,7 +314,7 @@ $config['cache_query_string'] = FALSE;
 | https://codeigniter.com/user_guide/libraries/encryption.html
 |
 */
-$config['encryption_key'] = '96cced14e9b681a13ff7091c2cf0cd05';
+$config['encryption_key'] = '96cced14e9b681a13ff7091c2cf0cd05'; //修改这里的秘药
 
 /*
 |--------------------------------------------------------------------------

@@ -1,4 +1,4 @@
-@extends('layout.header.blade.php.bak')
+@extends('layout.header')
 
 @section('content')
 	<!--loading-->
@@ -7,6 +7,9 @@
 	<div id="page-wrapper">
 		<div class="container-fluid">
 			<div class="row">
+				<div class="col-lg-12">
+					<h1 class="page-header">修改密码</h1>
+				</div>
 				<form id="change-pass-form" method="post" class="form-horizontal" action="{{base_url('/back/user/ajaxChangePass')}}">
 					<div class="container-fluid">
 						<!-- Page Heading -->

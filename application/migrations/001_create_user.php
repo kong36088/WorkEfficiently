@@ -6,7 +6,7 @@ class Migration_create_user extends CI_Migration {
 		$this->down();
 		## Create Table migrations
 		$sql = <<<EOT
-CREATE TABLE `admin_user` (
+CREATE TABLE `user` (
 	`id` INT NOT NULL AUTO_INCREMENT,
 	`username` VARCHAR(50) NOT NULL,
 	`password` VARCHAR(50) NOT NULL,
@@ -24,7 +24,7 @@ EOT;
 
 	public function down()	{
 		### Drop table migrations ##
-		$this->dbforge->drop_table("admin_user", TRUE);
+		$this->dbforge->drop_table("user", TRUE);
 
 	}
 }

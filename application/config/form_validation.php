@@ -3,7 +3,7 @@
 $CI =& get_instance();
 
 $config = array(
-	'back/login/login' => array(
+	'login/login' => array(
 		array(
 			'field' => 'username',
 			'label' => '用户名',
@@ -15,7 +15,7 @@ $config = array(
 			'rules' => 'required|min_length[4]|max_length[20]',
 		),
 	),
-	'back/user/ajaxChangePass' => array(
+	'user/ajaxChangePass' => array(
 		array(
 			'field' => 'opass',
 			'label' => '旧密码',

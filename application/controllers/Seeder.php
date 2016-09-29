@@ -30,7 +30,6 @@ class Seeder extends CI_Controller
 			'username' => 'root',
 			'password' => compile_pass('root', $salt),
 			'salt' => $salt,
-			'root' => 1,
 		);
 		$this->user_model->add($data);
 	}

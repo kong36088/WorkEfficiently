@@ -1,4 +1,4 @@
-@extends('back.layout.header')
+@extends('layout.header.blade.php.bak')
 
 @section('content')
 	<script src="{{base_url('/static')}}/js/chart/Chart.min.js"></script>

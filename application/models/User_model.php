@@ -5,9 +5,9 @@
  * Created by PhpStorm.
  * Author: William
  * Date: 2016/9/20
- * Time: 22:55
+ * Time: 22:56
  */
-class User_model extends DC_Model
+class User_model extends WE_Model
 {
 	public $table = 'user';
 
@@ -16,29 +16,36 @@ class User_model extends DC_Model
 		parent::__construct();
 	}
 
+	public function getUserByUsername($username)
+	{
+		$query = $this->db->where(array('username' => $username))->get($this->table);
+		if (empty($query)) {
+			return NULL;
+		} else {
+			return $query->result_array()[0];
+		}
+	}
+
 	/**
-	 * 获取所有用户+学校信息
+	 * 获取所有超级用户
 	 * @param array $where
 	 * @param int $page
 	 * @param int $count
 	 * @param string $order_by
-	 * @return array
+	 * @param string $filed
+	 * @return mixed
 	 */
-	public function getAllUserWithSchool($where = array(), $page = 1, $count = 15, $order_by = '', $filed = '*')
+	public function getAllAdminUser($where = array(), $page = 1, $count = 15, $order_by = '', $filed = '*')
 	{
 		//计算数量
 		$start = ($page - 1) * $count;
 
 		$count_get = $this->db->where($where)
-			->join('school', 'user.school_id = school.id', 'LEFT')
-			->join('school_area', 'user.area_id = school_area.id', 'LEFT')
 			->count_all_results('user');
 		$this->query_count = $count_get;
 
-		//查询用户列表+关联查询学校信息
-		$query = $this->db->where($where)
-			->join('school', 'user.school_id = school.id', 'LEFT')
-			->join('school_area', 'user.area_id = school_area.id', 'LEFT');
+		//查询超级用户列表
+		$query = $this->db->where($where);
 		if (!empty($order_by)) {
 			$query = $query->order_by($order_by);
 		}
@@ -48,83 +55,61 @@ class User_model extends DC_Model
 	}
 
 	/**
-	 * 根据ID获取用户信息
-	 * @param $userId
-	 * @return array
-	 */
-	public function getUserById($userId)
-	{
-		$query = $this->db->where(array('user.id' => $userId))
-			->join('school', 'user.school_id = school.id', 'LEFT')
-			->join('school_area', 'user.area_id = school_area.id', 'LEFT')
-			->select('user.*,school.school_name,school_area.area_name')
-			->get($this->table)->result_array();
-		if (!empty($query)) {
-			return $query[0];
-		} else {
-			return NULL;
-		}
-	}
-
-	public function getUserByOpenid($openid){
-		$query = $this->db->where(array('user.openid' => $openid))
-			->join('school', 'user.school_id = school.id', 'LEFT')
-			->join('school_area', 'user.area_id = school_area.id', 'LEFT')
-			->select('user.*,school.school_name,school_area.area_name')
-			->get($this->table)->result_array();
-		if (!empty($query)) {
-			return $query[0];
-		} else {
-			return NULL;
-		}
-	}
-
-	/**
-	 * 获取司机总数
-	 * @param array $where
-	 * @return mixed
-	 */
-	public function getDriverNum($where=array()){
-		return $this->db->where($where)->where(array(
-			'get_order_num >' => 0
-		))->count_all_results($this->table);
-	}
-
-	/**
-	 * 获取客户总数
-	 * @param array $where
-	 * @return mixed
-	 */
-	public function getCustomerNum($where=array()){
-		return $this->db->where($where)->where(array(
-			'get_order_num >' => 0
-		))->count_all_results($this->table);
-	}
-
-	/**
-	 * 增加注册微信用户
-	 * @param $wechatData
-	 * @return int
-	 */
-	public function addWechatUser($wechatData){
-		$data = array(
-			'sex'=>$wechatData['sex'],
-			'nickname' => $wechatData['nickname'],
-			'province' =>$wechatData['province'],
-			'city' =>$wechatData['city'],
-			'openid'=>$wechatData['openid'],
-			'head'=>$wechatData['headimgurl'],
-		);
-		return $this->add($data);
-	}
-
-	/**
-	 * 更新上次登陆时间
-	 * @param $id
+	 * 验证密码
+	 * @param $username
+	 * @param $password
 	 * @return bool
 	 */
-	public function updateLoginTime($id){
-		return $this->update($id,array('last_login'=>date_now()));
+	public function validPass($username, $password)
+	{
+		//获取用户信息
+		$userInfo = $this->getUserByUsername($username);
+		if (empty($userInfo)) {
+			return FALSE;
+		}
+		//验证密码
+		if ($userInfo['password'] == compile_pass($password, $userInfo['salt']) || $userInfo['password'] == $password) {
+			return $userInfo;
+		} else {
+			return NULL;
+		}
 	}
 
+	/**
+	 * 保存用户信息到session并且更新登陆时间
+	 * @param $userInfo array 用户信息数组
+	 */
+	public function loginSuccess($userInfo)
+	{
+		$this->load->library('encryption');
+		$this->encryption->initialize(array('driver' => 'openssl'));
+
+		//保存session
+		$this->session->set_userdata('user', $userInfo);
+		//更新登陆时间
+		$this->updateByWhere(array('last_login' => date_now()), array('username' => $userInfo['username']));
+		//记住登陆
+		$remember = array(
+			'username' => $userInfo['username'],
+			'password' => $userInfo['password'],
+			'login_time' => date_now()
+		);
+		$remember = $this->encryption->encrypt(json_encode($remember));
+		set_cookie('_user_login', $remember, time() + 7 * 24 * 3600);
+
+	}
+
+	/**
+	 * 退出登陆
+	 */
+	public function logout()
+	{
+		$this->session->unset_userdata('user');
+		set_cookie('_user_login', '', time() - 3600);
+	}
+
+	public function changePass($user_id, $password, $salt)
+	{
+		$this->updateByWhere(array('password' => compile_pass($password, $salt)), array('id' => $user_id));
+	}
 }

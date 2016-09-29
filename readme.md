@@ -2,6 +2,8 @@
 
 安装方法：
 
+修改`application/config/config.php`中的`encryption_key`修改加密秘药，为16位长度的秘钥
+
 修改`application/config/config.php`中的`base_url`修改为服务器的host地址
 
 修改`application/config/database.php`中的数据库配置，并且**创建数据库**
