@@ -85,7 +85,7 @@ class User_model extends WE_Model
 		$this->encryption->initialize(array('driver' => 'openssl'));
 
 		//保存session
-		$this->session->set_userdata('user', $userInfo);
+		$this->session->set_userdata('we_user', $userInfo);
 		//更新登陆时间
 		$this->updateByWhere(array('last_login' => date_now()), array('username' => $userInfo['username']));
 		//记住登陆

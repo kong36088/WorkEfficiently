@@ -22,7 +22,7 @@ class WE_Controller extends CI_Controller
 
 		$this->user = $this->session->userdata('we_user');
 
-		if (empty($this->user['username']) || $this->user['root'] != 1) {
+		if (empty($this->user['username'])) {
 			$this->session->unset_userdata('we_user');
 			redirect('/login/login');
 			return;
