@@ -77,5 +77,61 @@ $config = array(
 			'rules' => 'required|is_natural',
 		),
 	),
-
+	'todo/changeTaskStatus' => array(
+		array(
+			'field' => 'task_id',
+			'label' => 'task_id',
+			'rules' => 'required|is_natural',
+		),
+		array(
+			'field' => 'status',
+			'label' => '状态',
+			'rules' => 'required|is_natural',
+		),
+	),
+	'todo/changeTaskOptionStatus' => array(
+		array(
+			'field' => 'task_option_id',
+			'label' => 'task_option_id',
+			'rules' => 'required|is_natural',
+		),
+		array(
+			'field' => 'status',
+			'label' => '状态',
+			'rules' => 'required|is_natural',
+		),
+	),
+	'todo/deleteTask' => array(
+		array(
+			'field' => 'task_id',
+			'label' => 'task_id',
+			'rules' => 'required|is_natural',
+		),
+	),
+	'todo/deleteTaskOption' => array(
+		array(
+			'field' => 'task_option_id',
+			'label' => 'task_option_id',
+			'rules' => 'required|is_natural',
+		),
+	),
+	'todo/changeCategoryName' => array(
+		array(
+			'field' => 'category_id',
+			'label' => 'category_id',
+			'rules' => 'required|is_natural',
+		),
+		array(
+			'field' => 'category_name',
+			'label' => '分类名称',
+			'rules' => 'required|max[255]',
+		),
+	),
+	'todo/deleteCategory' => array(
+		array(
+			'field' => 'category_id',
+			'label' => 'category_id',
+			'rules' => 'required|is_natural',
+		),
+	),
 );

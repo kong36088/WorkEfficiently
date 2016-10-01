@@ -1,6 +1,8 @@
 function taskOptionInit(){
     inputOptionDelete();
     inputOptionSubmit();
+    taskOptionFinish();
+    deleteTaskOption();
 }
 
 //点击增加任务子项目
@@ -48,4 +50,45 @@ function inputOptionSubmit(){
                 taskOptionInit();
             });
     });
+}//完成任务
+function taskOptionFinish(){
+    $("button[name=table-btn-option-finish]").unbind().on("click",function(){
+        var taskOptionId = $(this).data('taskoptionid');
+        var data = {
+            task_option_id:taskOptionId,
+            status:2
+        };
+        var th = $(this);
+        http.post(changeTaskOptionsStatusUrl,data)
+            .success(function(data,status){
+                data = parseJson(data)[0];
+                if(data.code==1){
+                    th.parent().parent().remove();
+                }else{
+                    alert(data.message);
+                }
+            });
+    })
+}
+
+//删除字任务
+function deleteTaskOption(){
+    $("button[name=table-btn-option-delete]").on('click',function(){
+        if(confirm('确定要删除任务吗？')){
+            var taskOptionId = $(this).data('taskoptionid');
+            var data = {
+                task_option_id:taskOptionId,
+            };
+            var th = $(this);
+            http.post(deleteTaskOptionUrl,data)
+                .success(function(data,status){
+                    data = parseJson(data)[0];
+                    if(data.code==1){
+                        th.parent().parent().remove();
+                    }else{
+                        alert(data.message);
+                    }
+                });
+        }
+    })
 }

@@ -31,7 +31,7 @@ class Todo extends WE_Controller
 		$this->load->model('task_options_model');
 		//验证输入
 		if($this->form_validation->run()===FALSE){
-			$this->json_out->fail( array('errors' => strip_tags(validation_errors())));
+			$this->json_out->fail(strip_tags(validation_errors()));
 			return;
 		}
 		$userId = $this->user['id'];
@@ -46,7 +46,7 @@ class Todo extends WE_Controller
 		$this->load->model('category_model');
 		//验证输入
 		if($this->form_validation->run()===FALSE){
-			$this->json_out->fail( array('errors' => strip_tags(validation_errors())));
+			$this->json_out->fail(strip_tags(validation_errors()));
 			return;
 		}
 		$data['category_name'] = clean($this->input->post('category_name'));
@@ -64,7 +64,7 @@ class Todo extends WE_Controller
 		$this->load->model('task_model');
 		//验证输入
 		if($this->form_validation->run()===FALSE){
-			$this->json_out->fail( array('errors' => strip_tags(validation_errors())));
+			$this->json_out->fail(strip_tags(validation_errors()));
 			return;
 		}
 		$data['title'] = clean($this->input->post('title'));
@@ -83,7 +83,7 @@ class Todo extends WE_Controller
 		$this->load->model('task_options_model');
 		//验证输入
 		if($this->form_validation->run()===FALSE){
-			$this->json_out->fail( array('errors' => strip_tags(validation_errors())));
+			$this->json_out->fail(strip_tags(validation_errors()));
 			return;
 		}
 		$data['title'] = clean($this->input->post('title'));
@@ -93,5 +93,113 @@ class Todo extends WE_Controller
 		$insertId = $this->task_options_model->add($data);
 
 		$this->json_out->data($this->task_options_model->get($insertId));
+	}
+
+	/**
+	 * 完成任务
+	 */
+	public function changeTaskStatus(){
+		$this->load->model('task_model');
+
+		if($this->form_validation->run()===FALSE){
+			$this->json_out->fail(strip_tags(validation_errors()));
+			return;
+		}
+		$status = intval($this->input->post('status'));
+		$where['id'] = intval($this->input->post('task_id'));
+		$where['user_id'] = $this->user['id'];
+
+		$this->task_model->updateByWhere(array('status'=>$status),$where);
+
+		$this->json_out->success('操作成功');
+	}
+
+	/**
+	 * 完成子任务
+	 */
+	public function changeTaskOptionStatus(){
+		$this->load->model('task_options_model');
+
+		if($this->form_validation->run()===FALSE){
+			$this->json_out->fail(strip_tags(validation_errors()));
+			return;
+		}
+		$where['id'] = intval($this->input->post('task_option_id'));
+		$where['user_id'] = $this->user['id'];
+
+		$this->task_options_model->updateByWhere(array('status'=>2),$where);
+
+		$this->json_out->success('操作成功');
+	}
+
+	/**
+	 * 删除任务
+	 */
+	public function deleteTask(){
+		$this->load->model('task_model');
+
+		if($this->form_validation->run()===FALSE){
+			$this->json_out->fail(strip_tags(validation_errors()));
+			return;
+		}
+		$where['id'] = intval($this->input->post('task_id'));
+		$where['user_id'] = $this->user['id'];
+
+		$this->task_model->deleteByWhere($where);
+
+		$this->json_out->success('操作成功');
+	}
+
+	/**
+	 * 删除任务
+	 */
+	public function deleteTaskOption(){
+		$this->load->model('task_options_model');
+
+		if($this->form_validation->run()===FALSE){
+			$this->json_out->fail(strip_tags(validation_errors()));
+			return;
+		}
+		$where['id'] = intval($this->input->post('task_option_id'));
+		$where['user_id'] = $this->user['id'];
+
+		$this->task_options_model->deleteByWhere($where);
+
+		$this->json_out->success('操作成功');
+	}
+
+	/**
+	 * 修改分类名
+	 */
+	public function changeCategoryName(){
+		$this->load->model('category_model');
+
+		if($this->form_validation->run()===FALSE){
+			$this->json_out->fail(strip_tags(validation_errors()));
+			return;
+		}
+		$where['id'] = intval($this->input->post('category_id'));
+		$categoryName = $this->input->post('category_name');
+
+		$this->category_model->updateByWhere(array('category_name'=>$categoryName),$where);
+
+		$this->json_out->success('操作成功');
+	}
+
+	/**
+	 * 删除分类
+	 */
+	public function deleteCategory(){
+		$this->load->model('category_model');
+
+		if($this->form_validation->run()===FALSE){
+			$this->json_out->fail(strip_tags(validation_errors()));
+			return;
+		}
+		$categoryId = intval($this->input->post('category_id'));
+
+		$this->category_model->delete($categoryId);
+
+		$this->json_out->success('操作成功');
 	}
 }

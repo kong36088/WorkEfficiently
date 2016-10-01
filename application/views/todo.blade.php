@@ -2,7 +2,7 @@
 
 @section('content')
 	<?php
-	$panelColor = array('primary', 'green', 'blue', 'yellow', 'red');
+	$panelColor = array('primary', 'green', 'yellow', 'red');
 	?>
 
 	<!--loading-->
@@ -19,19 +19,23 @@
 				</div>
 			</div>
 
-
 			@forelse($list as $category)
-				<div class="panel panel-{{$panelColor[$category['id']%5]}}">
+				<div class="panel panel-{{$panelColor[$category['id']%4]}}">
 					<div class="panel-heading">
-						<a data-toggle="collapse" data-parent="#accordion" href="#collapseOne"
-						   style="text-decoration: none;color:white;">工作</a>
-						<span class="heading-title"></span>
+						<span class="heading-title" style="width:auto;">
+							<a data-toggle="collapse" data-parent="#accordion" href="#collapse{{$category['id']}}" class="category-name"
+							   style="text-decoration: none;color:white;">{{$category['category_name']}}</a>
+						</span>
 						<div class="pull-right">
-							<a href="javascript:void(0);" name="add-task" data-id="1">
+							<a href="javascript:void(0);" name="add-task" data-id="{{$category['id']}}" style="color:white;font-size:17px;margin-right:20px;">
 								<i class="fa fa-plus" aria-hidden="true"></i></a>
+							<a href="javascript:void(0);" name="change-category-name" data-id="{{$category['id']}}" style="color:white;font-size:17px;margin-right:20px;">
+								<i class="fa fa-gear" aria-hidden="true"></i></a>
+							<a href="javascript:void(0);" name="delete-category" data-id="{{$category['id']}}" style="color:white;font-size:17px;">
+								<i class="fa fa-times" aria-hidden="true"></i></a>
 						</div>
 					</div>
-					<div id="collapseOne" class="panel-collapse collapse in">
+					<div id="collapse{{$category['id']}}" class="panel-collapse collapse in">
 						<div class="panel-body">
 							<div>
 								<div class="well-sm" style="display:inline-block;width:100%;">
@@ -48,7 +52,7 @@
 														><i class="fa fa-check"></i></button>
 													</td>
 													<td>
-														<a href="javascript:void(0)" name="content-a"
+														<a href="javascript:void(0)" name="content-a" class="task-title"
 														   style="text-decoration: none;">
 															{{$task['title']}}
 														</a>
@@ -67,7 +71,7 @@
 													</td>
 												</tr>
 											@empty
-												这里还没有任务哦
+
 											@endforelse
 											</tbody>
 										</table>
@@ -183,6 +187,33 @@
 			</div>
 
 
+			<div class="modal fade" id="changeCategoryNameModal" tabindex="-1" role="dialog"
+			     aria-labelledby="myModalLabel" aria-hidden="true">
+				<div class="modal-dialog">
+					<div class="modal-content">
+						<div class="modal-header">
+							<button type="button" class="close"
+							        data-dismiss="modal" aria-hidden="true">
+								&times;
+							</button>
+							<h4 class="modal-title" id="myModalLabel">
+								修改分类名称
+							</h4>
+						</div>
+						<div class="modal-body">
+							<label for="title">分类名称</label>
+							<input class="form-control" type="text" name="category_name"/>
+							<input type="hidden" name="category_id">
+						</div>
+						<div class="modal-footer">
+							<button type="button" name="submit" class="btn btn-primary">
+								修改
+							</button>
+						</div>
+					</div><!-- /.modal-content -->
+				</div><!-- /.modal -->
+			</div>
+
 		</div>
 	</div>
 
@@ -202,13 +233,11 @@
 			</td>
 
 		</tr>
-
-
 	</script>
 	<script type="text/juicer" id="taskTr">
 		<tr>
 			<td style="width:10px;">
-				<button href="javascript:void(0);" name="table-btn-input-finish" data-id="${id}" class="btn btn-circle btn-success">
+				<button href="javascript:void(0);" name="table-btn-finish" data-taskid="${id}" class="btn btn-circle btn-success">
 					<i class="fa fa-check"></i></button>
 			</td>
 			<td>
@@ -217,14 +246,15 @@
 				</a>
 			</td>
 			<td width="10px;">
-				<button href="javascript:void(0);" name="table-btn-expand" data-id="${id}" class="btn btn-circle btn-info"><i
+				<button href="javascript:void(0);" name="table-btn-expand" data-taskid="${id}" class="btn btn-circle btn-info"><i
 							class="fa fa-arrows-alt"></i></button>
 			</td>
 			<td width="10px;">
-				<button href="javascript:void(0);" name="table-btn-delete" data-id="${id}" class="btn btn-circle btn-danger"
+				<button href="javascript:void(0);" name="table-btn-delete" data-taskid="${id}" class="btn btn-circle btn-danger"
 				   ><i class="fa fa-times"></i></button>
 			</td>
 		</tr>
+
 
 
 	</script>
@@ -237,35 +267,36 @@
 			<td>
 				<input type="text" class="form-control" name="title"/>
 			</td>
-			<td></td>
 			<td style="width: 10px;">
 				<button href="javascript:void(0);" name="table-btn-input-option-delete" class="btn btn-circle btn-danger"
 				 data-id="1"><i class="fa fa-times"></i></button>
 			</td>
 		</tr>
 
-
 	</script>
 	<script type="text/juicer" id="taskOptionTr">
 		<tr>
 			<td style="width:10px;">
-				<a href="javascript:void(0);" name="table-btn-finish" style="color:green;" data-id="${id}"><i class="fa fa-check"></i></a>
+				<button href="javascript:void(0);" name="table-btn-option-finish" data-taskoptionid="${id}" class="btn btn-circle btn-success">
+					<i class="fa fa-check"></i></button>
 			</td>
 			<td>
 				<a href="javascript:void(0)" name="content-a" style="text-decoration: none;">
 					${title}
 				</a>
 			</td>
-			<td style="width: 10px;">
-				<a href="javascript:void(0);" name="table-btn-option-delete" style="color:red;"
-				   data-id="${id}"><i class="fa fa-times"></i></a>
+			<td width="10px;">
+				<button href="javascript:void(0);" name="table-btn-option-delete" data-taskoptionid="${id}" class="btn btn-circle btn-danger"
+				   ><i class="fa fa-times"></i></button>
 			</td>
 		</tr>
+
 	</script>
 	<script type="application/javascript">
 		var addCategoryModal = $("#addCategoryModal");
 		var addTaskModel = $("#addTaskModal");
 		var taskOptionModel = $("#taskOptionModal");
+		var changeCategoryNameModal = $("#changeCategoryNameModal");
 	</script>
 	<script src="{{base_url('/static')}}/js/task.js"></script>
 	<script src="{{base_url('/static')}}/js/task_option.js"></script>
@@ -275,8 +306,15 @@
 			taskInit();
 			taskOptionInit();
 		}
+		var addCategoryUrl = "{{base_url('/todo/addCategory')}}";
 		var addTaskUrl = "{{base_url('/todo/addTask')}}";
 		var addTaskOptionsUrl = "{{base_url('/todo/addTaskOptions')}}";
 		var getTaskOptionsUrl = "{{base_url('/todo/getTaskOptions')}}";
+		var changeTaskStatusUrl = "{{base_url('/todo/changeTaskStatus')}}";
+		var changeTaskOptionsStatusUrl = "{{base_url('/todo/changeTaskOptionStatus')}}";
+		var deleteTaskUrl = "{{base_url('/todo/deleteTask')}}";
+		var deleteTaskOptionUrl = "{{base_url('/todo/deleteTaskOption')}}";
+		var changeCategoryNameUrl = "{{base_url('/todo/changeCategoryName')}}";
+		var deleteCategoryUrl = "{{base_url('/todo/deleteCategory')}}";
 	</script>
 @endsection

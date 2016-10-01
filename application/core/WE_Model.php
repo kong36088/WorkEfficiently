@@ -148,6 +148,20 @@ class WE_Model extends CI_Model
 	}
 
 	/**
+	 * 根据条件删除记录
+	 */
+	public function deleteByWhere($where)
+	{
+		// 确认表名不能为空
+		if (empty($this->table)) {
+			return false;
+		}
+
+		$query = $this->db->where($where)->delete($this->table);
+		return $query;
+	}
+
+	/**
 	 * 查询获得记录
 	 */
 	public function all($where = array(), $page = 1, $count = 15, $order_by = '')
