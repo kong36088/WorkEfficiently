@@ -14,7 +14,9 @@ class Todo extends WE_Controller
 		$this->load->library('form_validation');
 		$this->load->library('json_out');
 	}
-	public function index(){
+
+	public function index()
+	{
 		$this->load->model('category_model');
 		$this->load->model('task_model');
 
@@ -23,29 +25,50 @@ class Todo extends WE_Controller
 		$data['list'] = $this->category_model->getCategoryList($userId);
 		$data['list'] = $this->task_model->getTaskList($data['list']);
 		//print_r($data);exit;
-		
-		view('/todo',$data);
+
+		view('/todo', $data);
 	}
 
-	public function getTaskOptions(){
+	public function getTaskOptions()
+	{
 		$this->load->model('task_options_model');
 		//验证输入
-		if($this->form_validation->run()===FALSE){
+		if ($this->form_validation->run() === FALSE) {
 			$this->json_out->fail(strip_tags(validation_errors()));
 			return;
 		}
 		$userId = $this->user['id'];
 		$taskId = $this->input->post('task_id');
 
-		$taskOptions = $this->task_options_model->getByWhere(array('task_id'=>$taskId,'user_id'=>$userId,'is_delete'=>0,'status'=>1));
+		$taskOptions = $this->task_options_model->getTaskOptionsList($userId, $taskId);
 
 		$this->json_out->data($taskOptions);
 	}
 
-	public function addCategory(){
+	/**
+	 * 获取已完成任务
+	 */
+	public function getFinishTask()
+	{
+		$this->load->model('task_model');
+		//验证输入
+		if ($this->form_validation->run() === FALSE) {
+			$this->json_out->fail(strip_tags(validation_errors()));
+			return;
+		}
+		$userId = $this->user['id'];
+		$categoryId = $this->input->post('category_id');
+
+		$taskList = $this->task_model->getFinishTaskList($categoryId);
+
+		$this->json_out->data($taskList);
+	}
+
+	public function addCategory()
+	{
 		$this->load->model('category_model');
 		//验证输入
-		if($this->form_validation->run()===FALSE){
+		if ($this->form_validation->run() === FALSE) {
 			$this->json_out->fail(strip_tags(validation_errors()));
 			return;
 		}
@@ -60,10 +83,11 @@ class Todo extends WE_Controller
 	/**
 	 * ajax添加新任务
 	 */
-	public function addTask(){
+	public function addTask()
+	{
 		$this->load->model('task_model');
 		//验证输入
-		if($this->form_validation->run()===FALSE){
+		if ($this->form_validation->run() === FALSE) {
 			$this->json_out->fail(strip_tags(validation_errors()));
 			return;
 		}
@@ -79,10 +103,11 @@ class Todo extends WE_Controller
 	/**
 	 * ajax添加新子任务
 	 */
-	public function addTaskOptions(){
+	public function addTaskOptions()
+	{
 		$this->load->model('task_options_model');
 		//验证输入
-		if($this->form_validation->run()===FALSE){
+		if ($this->form_validation->run() === FALSE) {
 			$this->json_out->fail(strip_tags(validation_errors()));
 			return;
 		}
@@ -98,10 +123,11 @@ class Todo extends WE_Controller
 	/**
 	 * 完成任务
 	 */
-	public function changeTaskStatus(){
+	public function changeTaskStatus()
+	{
 		$this->load->model('task_model');
 
-		if($this->form_validation->run()===FALSE){
+		if ($this->form_validation->run() === FALSE) {
 			$this->json_out->fail(strip_tags(validation_errors()));
 			return;
 		}
@@ -109,7 +135,7 @@ class Todo extends WE_Controller
 		$where['id'] = intval($this->input->post('task_id'));
 		$where['user_id'] = $this->user['id'];
 
-		$this->task_model->updateByWhere(array('status'=>$status),$where);
+		$this->task_model->updateByWhere(array('status' => $status), $where);
 
 		$this->json_out->success('操作成功');
 	}
@@ -117,17 +143,19 @@ class Todo extends WE_Controller
 	/**
 	 * 完成子任务
 	 */
-	public function changeTaskOptionStatus(){
+	public function changeTaskOptionStatus()
+	{
 		$this->load->model('task_options_model');
 
-		if($this->form_validation->run()===FALSE){
+		if ($this->form_validation->run() === FALSE) {
 			$this->json_out->fail(strip_tags(validation_errors()));
 			return;
 		}
+		$status = intval($this->input->post('status'));
 		$where['id'] = intval($this->input->post('task_option_id'));
 		$where['user_id'] = $this->user['id'];
 
-		$this->task_options_model->updateByWhere(array('status'=>2),$where);
+		$this->task_options_model->updateByWhere(array('status' => $status), $where);
 
 		$this->json_out->success('操作成功');
 	}
@@ -135,10 +163,11 @@ class Todo extends WE_Controller
 	/**
 	 * 删除任务
 	 */
-	public function deleteTask(){
+	public function deleteTask()
+	{
 		$this->load->model('task_model');
 
-		if($this->form_validation->run()===FALSE){
+		if ($this->form_validation->run() === FALSE) {
 			$this->json_out->fail(strip_tags(validation_errors()));
 			return;
 		}
@@ -153,10 +182,11 @@ class Todo extends WE_Controller
 	/**
 	 * 删除任务
 	 */
-	public function deleteTaskOption(){
+	public function deleteTaskOption()
+	{
 		$this->load->model('task_options_model');
 
-		if($this->form_validation->run()===FALSE){
+		if ($this->form_validation->run() === FALSE) {
 			$this->json_out->fail(strip_tags(validation_errors()));
 			return;
 		}
@@ -171,17 +201,18 @@ class Todo extends WE_Controller
 	/**
 	 * 修改分类名
 	 */
-	public function changeCategoryName(){
+	public function changeCategoryName()
+	{
 		$this->load->model('category_model');
 
-		if($this->form_validation->run()===FALSE){
+		if ($this->form_validation->run() === FALSE) {
 			$this->json_out->fail(strip_tags(validation_errors()));
 			return;
 		}
 		$where['id'] = intval($this->input->post('category_id'));
 		$categoryName = $this->input->post('category_name');
 
-		$this->category_model->updateByWhere(array('category_name'=>$categoryName),$where);
+		$this->category_model->updateByWhere(array('category_name' => $categoryName), $where);
 
 		$this->json_out->success('操作成功');
 	}
@@ -189,10 +220,11 @@ class Todo extends WE_Controller
 	/**
 	 * 删除分类
 	 */
-	public function deleteCategory(){
+	public function deleteCategory()
+	{
 		$this->load->model('category_model');
 
-		if($this->form_validation->run()===FALSE){
+		if ($this->form_validation->run() === FALSE) {
 			$this->json_out->fail(strip_tags(validation_errors()));
 			return;
 		}

@@ -32,4 +32,15 @@ class Task_model extends WE_Model
 		}
 		return $categoryList;
 	}
+
+	public function getFinishTaskList($categoryId){
+			$where = array(
+				'task.is_delete'=>0,
+				'task.status <>'=>1,
+				'task.category_id'=>$categoryId
+			);
+			$query = $this->db->where($where)->order_by('id','asc')->get($this->table)->result_array();
+
+		return $query;
+	}
 }

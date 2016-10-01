@@ -3,6 +3,7 @@ function taskOptionInit(){
     inputOptionSubmit();
     taskOptionFinish();
     deleteTaskOption();
+    undoTaskOption();
 }
 
 //点击增加任务子项目
@@ -38,7 +39,8 @@ function inputOptionSubmit(){
                 if(data.code==1){
                     var html = juicer($("#taskOptionTr").html(),{
                         id:data.data.id,
-                        title:data.data.title
+                        title:data.data.title,
+                        status:data.data.status
                     });
                     $("#task-option-body").append(html);
                     //删除输入框
@@ -63,7 +65,31 @@ function taskOptionFinish(){
             .success(function(data,status){
                 data = parseJson(data)[0];
                 if(data.code==1){
-                    th.parent().parent().remove();
+                    th.parent().parent().find('p[name=option-title]').find("span").css('text-decoration','line-through');
+                    th.parent().empty().append('<button href="javascript:void(0);" name="table-btn-option-undo" data-taskoptionid="'+taskOptionId+'" class="btn btn-circle btn-warning"> <i class="fa fa-undo"></i></button>');
+                    taskOptionInit();
+                }else{
+                    alert(data.message);
+                }
+            });
+    })
+}
+
+function undoTaskOption(){
+    $("button[name=table-btn-option-undo]").unbind().on("click",function(){
+        var taskOptionId = $(this).data('taskoptionid');
+        var data = {
+            task_option_id:taskOptionId,
+            status:1
+        };
+        var th = $(this);
+        http.post(changeTaskOptionsStatusUrl,data)
+            .success(function(data,status){
+                data = parseJson(data)[0];
+                if(data.code==1){
+                    th.parent().parent().find('p[name=option-title]').find("span").css('text-decoration','none');
+                    th.parent().empty().append('<button href="javascript:void(0);" name="table-btn-option-finish" data-taskoptionid="'+taskOptionId+'" class="btn btn-circle btn-success"> <i class="fa fa-check"></i></button>');
+                    taskOptionInit();
                 }else{
                     alert(data.message);
                 }
@@ -73,7 +99,7 @@ function taskOptionFinish(){
 
 //删除字任务
 function deleteTaskOption(){
-    $("button[name=table-btn-option-delete]").on('click',function(){
+    $("button[name=table-btn-option-delete]").unbind().on('click',function(){
         if(confirm('确定要删除任务吗？')){
             var taskOptionId = $(this).data('taskoptionid');
             var data = {

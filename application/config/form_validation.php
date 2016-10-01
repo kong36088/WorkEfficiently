@@ -94,6 +94,13 @@ $config = array(
 			'rules' => 'required|is_natural',
 		),
 	),
+	'todo/getFinishTask' => array(
+		array(
+			'field' => 'category_id',
+			'label' => 'category_id',
+			'rules' => 'required|is_natural',
+		),
+	),
 	'todo/changeTaskStatus' => array(
 		array(
 			'field' => 'task_id',

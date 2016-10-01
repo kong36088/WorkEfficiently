@@ -6,6 +6,8 @@ function taskInit() {
     deleteTask();
     submitChangeCategoryName();
     deleteCategory();
+    getFinishTask();
+    undoTask();
 }
 //点击增加分类
 $("#add-category-btn").on("click", function () {
@@ -43,7 +45,7 @@ $("a[name=add-task]").on("click", function () {
 function expandTaskOptions() {
     $("button[name=table-btn-expand]").unbind().on("click", function () {
         var taskId = $(this).data('taskid');
-        var taskTitle = $(this).parent().parent().find(".task-title").text();
+        var taskTitle = $(this).parent().parent().find("[name=task-title]").text();
         data = {
             task_id: taskId
         };
@@ -56,7 +58,8 @@ function expandTaskOptions() {
                         var d = data.data[x];
                         html += juicer($("#taskOptionTr").html(), {
                             id: d.id,
-                            title: d.title
+                            title: d.title,
+                            status:d.status
                         });
                     }
                     $("#task-option-body").empty().append(html);
@@ -68,6 +71,7 @@ function expandTaskOptions() {
         init();
         $("#taskOptionModal").attr('data-taskid', taskId);
         $("#taskOptionModal").find(".modal-title").text(taskTitle);
+        taskFinishModal.modal('hide');
         taskOptionModel.modal("show");
     });
 }
@@ -134,7 +138,7 @@ function taskFinish() {
 }
 //删除任务
 function deleteTask() {
-    $("button[name=table-btn-delete]").on('click', function () {
+    $("button[name=table-btn-delete]").unbind().on('click', function () {
         if (confirm('确定要删除任务吗？')) {
             var taskId = $(this).data('taskid');
             var data = {
@@ -155,7 +159,7 @@ function deleteTask() {
 }
 
 //点击修改分类名称
-$("a[name=change-category-name]").on("click", function () {
+$("a[name=change-category-name]").unbind().on("click", function () {
     var category_id = $(this).data('id');
     var categoryName = $(this).parents(".panel").find(".category-name").text();
     changeCategoryNameModal.find("input[name=category_name]").val(categoryName);
@@ -184,8 +188,9 @@ function submitChangeCategoryName() {
     })
 }
 
+//删除分类
 function deleteCategory(){
-    $("a[name=delete-category]").on('click', function () {
+    $("a[name=delete-category]").unbind().on('click', function () {
         if (confirm('确定要删除分类吗？（将无法恢复）')) {
             var categoryId = $(this).data('id');
             var data = {
@@ -202,5 +207,55 @@ function deleteCategory(){
                     }
                 });
         }
+    })
+}
+//获取已完成任务
+function getFinishTask(){
+    $("button[name=get-finish-task-btn]").unbind().on("click",function(){
+        var categoryId = $(this).data('categoryid');
+        data = {
+            category_id: categoryId
+        };
+        http.post(getFinishTaskUrl, data)
+            .success(function (data, status) {
+                data = parseJson(data)[0];
+                if (data.code == 1) {
+                    var html;
+                    for (x in data.data) {
+                        var d = data.data[x];
+                        html += juicer($("#finishTaskTr").html(), {
+                            id: d.id,
+                            title: d.title,
+                            status:d.status
+                        });
+                    }
+                    $("#task-finished-body").empty().append(html);
+                    init();
+                } else {
+                    alert(data.message);
+                }
+            });
+        init();
+        taskFinishModal.modal("show");
+    })
+}
+//重新开启任务
+function undoTask(){
+    $("button[name=table-btn-undo]").unbind().on("click",function(){
+        var taskId = $(this).data('taskid');
+        var data = {
+            task_id:taskId,
+            status:1
+        };
+        var th = $(this);
+        http.post(changeTaskStatusUrl,data)
+            .success(function(data,status){
+                data = parseJson(data)[0];
+                if(data.code==1){
+                    window.location.reload();
+                }else{
+                    alert(data.message);
+                }
+            });
     })
 }
