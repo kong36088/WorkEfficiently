@@ -131,3 +131,15 @@ if (!function_exists('get_month')) {
 		return date('Y-m', strtotime($timePass . ' month + 1 day')) . '-01';
 	}
 }
+
+if(!function_exists('get_sys_config')){
+	/**
+	 * 查config表获取用户个性设置
+	 * @param $key
+	 * @return string
+	 */
+	function get_sys_config($key){
+		$CI = &get_instance();
+		return $CI->config_model->getConfig($_SESSION['we_user']['id'],$key);
+	}
+}

@@ -46,8 +46,9 @@ class User extends WE_Controller
 	}
 
 	public function setting(){
-		$perPage = $this->config_model->getConfig($this->user['id'],'per_page');
-		$data['per_page'] = $perPage;
+		$data['per_page'] = $this->config_model->getConfig($this->user['id'],'per_page');
+
+		$data['site_name'] = $this->config_model->getConfig($this->user['id'],'site_name');
 
 		view('/setting',$data);
 	}
@@ -62,7 +63,9 @@ class User extends WE_Controller
 			$this->json_out->fail( array('errors' => strip_tags(validation_errors())));
 			return;
 		}
-		$data['per_page'] = $this->input->post('per_page');
+		$data['per_page'] = empty($this->input->post('per_page'))?'':$this->input->post('per_page');
+		$data['site_name'] = empty($this->input->post('site_name'))?'':$this->input->post('site_name');
+
 		$this->config_model->setConfig($this->user['id'],$data);
 
 		$this->json_out->success('操作成功');

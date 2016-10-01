@@ -72,7 +72,12 @@
 				<span class="icon-bar"></span>
 				<span class="icon-bar"></span>
 			</button>
-			<a class="navbar-brand" href="{{base_url('/todo/index')}}">William的工具箱</a>
+			<a class="navbar-brand" href="{{base_url('/todo/index')}}">
+				<?php
+					$siteName = get_sys_config('site_name');
+					echo empty($siteName)?'William的工具箱':$siteName;
+				?>
+			</a>
 		</div>
 		<!-- /.navbar-header -->
 

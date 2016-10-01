@@ -83,7 +83,7 @@
 					</div>
 				</div>
 			@empty
-				暂时没有数据
+				暂时没有任务哦
 			@endforelse
 
 			<div class="modal fade" id="addCategoryModal" tabindex="-1" role="dialog"
@@ -241,7 +241,7 @@
 					<i class="fa fa-check"></i></button>
 			</td>
 			<td>
-				<a href="javascript:void(0)" name="content-a" style="text-decoration: none;">
+				<a href="javascript:void(0)" name="task-title" class="task-title" style="text-decoration: none;">
 					${title}
 				</a>
 			</td>

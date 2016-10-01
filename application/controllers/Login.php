@@ -78,4 +78,48 @@ class Login extends CI_Controller
 		$this->user_model->logout();
 		redirect('/login/login');
 	}
+
+	/**
+	 * 注册
+	 * get和post方法分开接口
+	 */
+	public function register()
+	{
+		if ($this->input->method(TRUE) != 'POST') {
+			view('/register');
+			return;
+		} else {
+			$this->load->library('form_validation');
+			$this->load->model('user_model');
+			//验证表单
+			if ($this->form_validation->run() === FALSE) {
+				view('/register', array('errors' => strip_tags(validation_errors())));
+				return;
+			}
+			$username = clean($this->input->post('username'));
+			$password = clean($this->input->post('password'));
+			//验证是否存在用户
+			if($this->user_model->getUserByUsername($username)){
+				view('/register', array('errors' => '用户名已存在'));
+				return;
+			}
+
+			$salt = generateSalt();
+			$data = array(
+				'username' => $username,
+				'password' => compile_pass($password, $salt),
+				'salt' => $salt,
+			);
+			if (!($userId = $this->user_model->add($data))) {
+				view('/register', array('errors' => '注册失败，请重试'));
+				return;
+			}
+			$userInfo = $this->user_model->get($userId);
+			//验证密码成功则更新登陆时间，并保存session
+			$this->user_model->loginSuccess($userInfo);
+
+			redirect('/login/login');
+
+		}
+	}
 }

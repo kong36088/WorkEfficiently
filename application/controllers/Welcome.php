@@ -25,6 +25,6 @@ class Welcome extends CI_Controller {
 
 	public function index()
 	{
-		echo base_url('/');
+		redirect('login/login');
 	}
 }

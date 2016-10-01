@@ -7,7 +7,19 @@ $config = array(
 		array(
 			'field' => 'username',
 			'label' => '用户名',
+			'rules' => 'required|min_length[4]|max_length[20]|alpha_numeric',
+		),
+		array(
+			'field' => 'password',
+			'label' => '密码',
 			'rules' => 'required|min_length[4]|max_length[20]',
+		),
+	),
+	'login/register' => array(
+		array(
+			'field' => 'username',
+			'label' => '用户名',
+			'rules' => 'required|min_length[4]|max_length[20]|alpha_numeric',
 		),
 		array(
 			'field' => 'password',
@@ -37,6 +49,11 @@ $config = array(
 			'field' => 'per_page',
 			'label' => '每页显示数量',
 			'rules' => 'is_natural',
+		),
+		array(
+			'field' => 'site_name',
+			'label' => '站点名称',
+			'rules' => 'max_length[50]',
 		),
 	),
 	'todo/addCategory' => array(

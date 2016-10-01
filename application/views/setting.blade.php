@@ -10,14 +10,25 @@
 				</div>
 				<form class="form-horizontal" id="setting-form">
 
-					<span style="color:red;" id="tip"></span>
+					<div style="padding-left:20px;">
+						<span style="color:red;" id="tip"></span>
+					</div>
 
 					<div class="col-lg-5" style="padding-left:30px;">
+					<!--
 						<div class="form-group">
 							<label for="per_page" class="control-label">每页显示数量</label>
 							<div class="">
 								<input class="form-control" id="per_page" name="per_page" placeholder="" type="text"
 								       value="{{empty($per_page)?'':$per_page}}">
+							</div>
+						</div>
+						-->
+						<div class="form-group">
+							<label for="site_name" class="control-label">我的站点名称</label>
+							<div class="">
+								<input class="form-control" id="site_name" name="site_name" placeholder="" type="text"
+								       value="{{empty($site_name)?'':$site_name}}">
 							</div>
 						</div>
 

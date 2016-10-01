@@ -30,10 +30,11 @@
                 <input type="text" name="username" class="username" placeholder="用户名">
                 <input type="password" name="password" class="password" placeholder="密码">
                 <button type="submit">提交</button>
+	            <a href="{{base_url('/login/register')}}"><button type="button">注册</button></a>
                 <div class="error"><span>+</span></div>
             </form>
             <div class="connect">
-                <p>Or connect with <a href="https://github.com/kong36088" target="_blank" style="text-decoration: none;">Me</a></p>
+                <p>Or star <a href="https://github.com/kong36088" target="_blank" style="text-decoration: none;">Me</a></p>
             </div>
         </div>
 		
