@@ -9,6 +9,7 @@ class Migration_create_task extends CI_Migration {
 CREATE TABLE `task` (
 	`id` INT(11) NOT NULL AUTO_INCREMENT,
 	`user_id` INT(11) NOT NULL,
+	`category_id` INT(11) NOT NULL,
 	`status` INT(1) NOT NULL DEFAULT '1' COMMENT '1进行中，2已完成，-1已过期',
 	`title` VARCHAR(255) NOT NULL,
 	`create_time` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,

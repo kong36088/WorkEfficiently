@@ -9,7 +9,7 @@
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <title>使用小工具</title>
+    <title>William的工具箱</title>
 
     <!-- Bootstrap Core CSS -->
     <link href="{{base_url('/static')}}/css/bootstrap.css" rel="stylesheet">
@@ -67,7 +67,7 @@
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                <a class="navbar-brand" href="index.html">William的工具箱</a>
+                <a class="navbar-brand" href="{{base_url('/todo/index')}}">William的工具箱</a>
             </div>
             <!-- /.navbar-header -->
 
@@ -158,6 +158,8 @@
                         <i class="fa fa-user fa-fw"></i> {{$_SESSION['we_user']['username']}} <i class="fa fa-caret-down"></i>
                     </a>
                     <ul class="dropdown-menu dropdown-user">
+	                    <li><a href="{{base_url('/user/setting')}}"><i class="fa fa-star fa-fw"></i> 系统设置</a>
+	                    </li>
                         <li><a href="{{base_url('/user/changePass')}}"><i class="fa fa-gear fa-fw"></i> 修改密码</a>
                         </li>
                         <li class="divider"></li>
@@ -173,22 +175,12 @@
             <div class="navbar-default sidebar" role="navigation">
                 <div class="sidebar-nav navbar-collapse">
                     <ul class="nav" id="side-menu">
-                        <li class="sidebar-search">
-                            <div class="input-group custom-search-form">
-                                <input type="text" class="form-control" placeholder="Search...">
-                                <span class="input-group-btn">
-                                    <button class="btn btn-default" type="button">
-                                        <i class="fa fa-search"></i>
-                                    </button>
-                                </span>
-                            </div>
-                            <!-- /input-group -->
-                        </li>
+
                         <li>
-                            <a href="index.html"><i class="fa fa-dashboard fa-fw"></i> 清单统计</a>
+                            <a href="{{base_url('/count/index')}}"><i class="fa fa-dashboard fa-fw"></i> 清单统计</a>
                         </li>
 	                    <li>
-		                    <a href="index.html"><i class="fa fa-dashboard fa-fw"></i> 任务清单</a>
+		                    <a href="{{base_url('/todo/index')}}"><i class="fa fa-dashboard fa-fw"></i> 任务清单</a>
 	                    </li>
 
                     </ul>
@@ -201,6 +193,7 @@
 	    <!-- jQuery -->
 	    <script src="{{base_url('/static')}}/js/jquery-1.11.3.min.js"></script>
 
+	    <script src="{{base_url('/static')}}/js/juicer-min.js"></script>
 	    <!-- Bootstrap Core JavaScript -->
 	    <script src="{{base_url('/static')}}/js/bootstrap.min.js"></script>
 
@@ -208,8 +201,15 @@
 	    <script src="{{base_url('/static')}}/js/metisMenu.min.js"></script>
 
 	    <!-- Custom Theme JavaScript -->
-	    <script src="{{base_url('/static')}}/js/sb-admin-2.min.js"></script>
+	    <script src="{{base_url('/static')}}/js/http.js"></script>
+	    <script src="{{base_url('/static')}}/js/http_view.js"></script>
 
+	    <script src="{{base_url('/static')}}/js/function.js"></script>
+
+
+
+	    <!--loading-->
+	    <div class="loading">loading...</div>
 	    @yield('content')
 
     </div>

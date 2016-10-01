@@ -24,7 +24,7 @@ class User extends WE_Controller
 		view('/change_pass');
 	}
 
-	public function ajaxChangePass()
+	public function postChangePass()
 	{
 		$this->load->library('form_validation');
 		//验证表单
@@ -45,5 +45,27 @@ class User extends WE_Controller
 		echo '<script>alert("修改成功");window.location.href="' . base_url('/user/changePass') . '"</script>';
 	}
 
+	public function setting(){
+		$perPage = $this->config_model->getConfig($this->user['id'],'per_page');
+		$data['per_page'] = $perPage;
+
+		view('/setting',$data);
+	}
+
+	public function postSetting(){
+		$this->load->library('form_validation');
+		$this->load->library('json_out');
+		$this->load->model('config_model');
+
+		//验证表单
+		if ($this->form_validation->run() === FALSE) {
+			$this->json_out->fail( array('errors' => strip_tags(validation_errors())));
+			return;
+		}
+		$data['per_page'] = $this->input->post('per_page');
+		$this->config_model->setConfig($this->user['id'],$data);
+
+		$this->json_out->success('操作成功');
+	}
 
 }

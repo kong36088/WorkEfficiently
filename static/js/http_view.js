@@ -13,7 +13,8 @@ http = {
                 $(".loading").css('display', 'none');
             })
             .error(function (xmlobject, error) {
-                console.log(error);
+                $(".loading").css('display', 'none');
+                alert('操作失败，请重试');
             });
     },
     post: function (url, data) {
@@ -23,7 +24,8 @@ http = {
                 $(".loading").css('display', 'none');
             })
             .error(function (xmlobject, error) {
-                console.log(error);
+                $(".loading").css('display', 'none');
+                alert('操作失败，请重试');
             });
     },
     put: function (url, data) {
@@ -33,7 +35,8 @@ http = {
                 $(".loading").css('display', 'none');
             })
             .error(function (xmlobject, error) {
-                console.log(error);
+                $(".loading").css('display', 'none');
+                alert('操作失败，请重试');
             });
     },
     delete: function (url, data) {
@@ -43,7 +46,8 @@ http = {
                 $(".loading").css('display', 'none');
             })
             .error(function (xmlobject, error) {
-                console.log(error);
+                $(".loading").css('display', 'none');
+                alert('操作失败，请重试');
             });
     }
 };

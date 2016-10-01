@@ -128,8 +128,8 @@
     <!-- jQuery -->
     <script src="{{base_url('/static')}}/js/jquery-1.11.3.min.js"></script>
 	<script src="{{base_url('/static')}}/js/back/function.js"></script>
-    <script src="{{base_url('/static')}}/js/back/admin_http.js"></script>
-	<script src="{{base_url('/static')}}/js/back/admin_http_view.js"></script>
+    <script src="{{base_url('/static')}}/js/back/http.js"></script>
+	<script src="{{base_url('/static')}}/js/back/http_view.js"></script>
     @yield('content')
 
 

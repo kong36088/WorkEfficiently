@@ -18,11 +18,11 @@ class User_model extends WE_Model
 
 	public function getUserByUsername($username)
 	{
-		$query = $this->db->where(array('username' => $username))->get($this->table);
+		$query = $this->db->where(array('username' => $username))->get($this->table)->result_array();
 		if (empty($query)) {
 			return NULL;
 		} else {
-			return $query->result_array()[0];
+			return $query[0];
 		}
 	}
 

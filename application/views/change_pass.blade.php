@@ -11,7 +11,7 @@
 					<h1 class="page-header">修改密码</h1>
 				</div>
 				<form id="change-pass-form" method="post" class="form-horizontal"
-				      action="{{base_url('/user/ajaxChangePass')}}">
+				      action="{{base_url('/user/postChangePass')}}">
 					<div class="col-lg-12">
 						<p class="text-info bg-info">密码长度为4-16位</p>
 					</div>

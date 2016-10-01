@@ -9,7 +9,7 @@ class Migration_create_category extends CI_Migration {
 CREATE TABLE `category` (
 	`id` INT(11) NOT NULL AUTO_INCREMENT,
 	`user_id` INT(11) NOT NULL,
-	`catogory_name` VARCHAR(100) NOT NULL COMMENT '分类名',
+	`category_name` VARCHAR(100) NOT NULL COMMENT '分类名',
 	`create_time` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
 	`is_delete` INT(1) NOT NULL DEFAULT '0',
 	`order` INT(11) NOT NULL COMMENT '排列顺序，预留用',

@@ -15,7 +15,7 @@ $config = array(
 			'rules' => 'required|min_length[4]|max_length[20]',
 		),
 	),
-	'user/ajaxChangePass' => array(
+	'user/postChangePass' => array(
 		array(
 			'field' => 'opass',
 			'label' => '旧密码',
@@ -32,4 +32,50 @@ $config = array(
 			'rules' => 'required|min_length[4]|max_length[20]',
 		),
 	),
+	'user/postSetting' => array(
+		array(
+			'field' => 'per_page',
+			'label' => '每页显示数量',
+			'rules' => 'is_natural',
+		),
+	),
+	'todo/addCategory' => array(
+		array(
+			'field' => 'category_name',
+			'label' => '分类名称',
+			'rules' => 'required|max_length[100]',
+		),
+	),
+	'todo/addTask' => array(
+		array(
+			'field' => 'title',
+			'label' => '任务内容',
+			'rules' => 'required|max_length[255]',
+		),
+		array(
+			'field' => 'category_id',
+			'label' => 'category_id',
+			'rules' => 'required|is_natural',
+		),
+	),
+	'todo/addTaskOptions' => array(
+		array(
+			'field' => 'title',
+			'label' => '子任务内容',
+			'rules' => 'required|max_length[255]',
+		),
+		array(
+			'field' => 'task_id',
+			'label' => 'task_id',
+			'rules' => 'required|is_natural',
+		),
+	),
+	'todo/getTaskOptions' => array(
+		array(
+			'field' => 'task_id',
+			'label' => 'task_id',
+			'rules' => 'required|is_natural',
+		),
+	),
+
 );
