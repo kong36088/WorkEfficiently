@@ -44,11 +44,12 @@ $("a[name=add-task]").on("click", function () {
 //点击打开任务详情
 function expandTaskOptions() {
     $("button[name=table-btn-expand]").unbind().on("click", function () {
-        var taskId = $(this).data('taskid');
+        var taskId = $(this).attr('data-taskid');
         var taskTitle = $(this).parent().parent().find("[name=task-title]").text();
         data = {
             task_id: taskId
         };
+        $("#task-option-body").empty();
         http.post(getTaskOptionsUrl, data)
             .success(function (data, status) {
                 data = parseJson(data)[0];
@@ -62,7 +63,7 @@ function expandTaskOptions() {
                             status:d.status
                         });
                     }
-                    $("#task-option-body").empty().append(html);
+                    $("#task-option-body").append(html);
                     init();
                 } else {
                     alert(data.message);
@@ -81,13 +82,13 @@ function inputTaskSubmit() {
     $("button[name=table-btn-input-finish]").unbind().on("click", function () {
         var th = $(this);
         var title = $(this).parent().parent().find("input[name=title]").val();
-        var category_id = $(this).parent().parent().parent().parent().data('category-id');
-        if (!title || !category_id) {
+        var categoryId = $(this).parent().parent().parent().parent().attr('data-category-id');
+        if (!title || !categoryId) {
             alert('请填写任务内容');
             return false;
         }
         data = {
-            category_id: category_id,
+            category_id: categoryId,
             title: title
         };
         http.post(addTaskUrl, data)
@@ -119,7 +120,7 @@ function inputTaskDelete() {
 //完成任务
 function taskFinish() {
     $("button[name=table-btn-finish]").unbind().on("click", function () {
-        var taskId = $(this).data('taskid');
+        var taskId = $(this).attr('data-taskid');
         var data = {
             task_id: taskId,
             status: 2
@@ -140,7 +141,7 @@ function taskFinish() {
 function deleteTask() {
     $("button[name=table-btn-delete]").unbind().on('click', function () {
         if (confirm('确定要删除任务吗？')) {
-            var taskId = $(this).data('taskid');
+            var taskId = $(this).attr('data-taskid');
             var data = {
                 task_id: taskId,
             };
@@ -160,7 +161,7 @@ function deleteTask() {
 
 //点击修改分类名称
 $("a[name=change-category-name]").unbind().on("click", function () {
-    var category_id = $(this).data('id');
+    var category_id = $(this).attr('data-id');
     var categoryName = $(this).parents(".panel").find(".category-name").text();
     changeCategoryNameModal.find("input[name=category_name]").val(categoryName);
     changeCategoryNameModal.find("input[name=category_id]").val(category_id);
@@ -192,7 +193,7 @@ function submitChangeCategoryName() {
 function deleteCategory(){
     $("a[name=delete-category]").unbind().on('click', function () {
         if (confirm('确定要删除分类吗？（将无法恢复）')) {
-            var categoryId = $(this).data('id');
+            var categoryId = $(this).attr('data-id');
             var data = {
                 category_id: categoryId,
             };
@@ -212,7 +213,7 @@ function deleteCategory(){
 //获取已完成任务
 function getFinishTask(){
     $("button[name=get-finish-task-btn]").unbind().on("click",function(){
-        var categoryId = $(this).data('categoryid');
+        var categoryId = $(this).attr('data-categoryid');
         data = {
             category_id: categoryId
         };
@@ -242,7 +243,7 @@ function getFinishTask(){
 //重新开启任务
 function undoTask(){
     $("button[name=table-btn-undo]").unbind().on("click",function(){
-        var taskId = $(this).data('taskid');
+        var taskId = $(this).attr('data-taskid');
         var data = {
             task_id:taskId,
             status:1

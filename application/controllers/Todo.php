@@ -59,7 +59,7 @@ class Todo extends WE_Controller
 		$userId = $this->user['id'];
 		$categoryId = $this->input->post('category_id');
 
-		$taskList = $this->task_model->getFinishTaskList($categoryId);
+		$taskList = $this->task_model->getFinishTaskList($userId,$categoryId);
 
 		$this->json_out->data($taskList);
 	}
@@ -174,7 +174,7 @@ class Todo extends WE_Controller
 		$where['id'] = intval($this->input->post('task_id'));
 		$where['user_id'] = $this->user['id'];
 
-		$this->task_model->deleteByWhere($where);
+		$this->task_model->updateByWhere(array('is_delete' => 1), $where);
 
 		$this->json_out->success('操作成功');
 	}
@@ -193,7 +193,7 @@ class Todo extends WE_Controller
 		$where['id'] = intval($this->input->post('task_option_id'));
 		$where['user_id'] = $this->user['id'];
 
-		$this->task_options_model->deleteByWhere($where);
+		$this->task_options_model->updateByWhere(array('is_delete' => 1), $where);
 
 		$this->json_out->success('操作成功');
 	}
@@ -223,6 +223,7 @@ class Todo extends WE_Controller
 	public function deleteCategory()
 	{
 		$this->load->model('category_model');
+		$this->load->model('task_model');
 
 		if ($this->form_validation->run() === FALSE) {
 			$this->json_out->fail(strip_tags(validation_errors()));
@@ -230,7 +231,10 @@ class Todo extends WE_Controller
 		}
 		$categoryId = intval($this->input->post('category_id'));
 
-		$this->category_model->delete($categoryId);
+		//删除分类
+		$this->category_model->updateByWhere(array('is_delete' => 1), array('id'=>$categoryId));
+		//删除所属的任务
+		$this->task_model->updateByWhere(array('is_delete' => 1), array('category_id'=>$categoryId));
 
 		$this->json_out->success('操作成功');
 	}

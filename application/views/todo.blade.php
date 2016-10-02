@@ -159,6 +159,7 @@
 							<h4 class="modal-title" id="myModalLabel">
 								今天的任务
 							</h4>
+							<p class="text-muted">子任务清单</p>
 						</div>
 						<div class="modal-body">
 							<table class="table table-striped table-bordered table-hover">
@@ -222,7 +223,7 @@
 				</div><!-- /.modal -->
 			</div>
 
-			<div class="modal fade" id="taskFinishModal" tabindex="-1" role="dialog" data-taskid=""
+			<div class="modal fade" id="taskFinishModal" tabindex="-1" role="dialog" data-categoryid=""
 			     aria-labelledby="myModalLabel" aria-hidden="true">
 				<div class="modal-dialog">
 					<div class="modal-content">
@@ -241,9 +242,6 @@
 
 								</tbody>
 							</table>
-							<button type="button" name="add-task-option-btn" class="btn btn-info"><i
-										class="fa fa-plus"></i>
-							</button>
 						</div>
 						<div class="modal-footer">
 							<button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>

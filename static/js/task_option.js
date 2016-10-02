@@ -24,7 +24,7 @@ function inputOptionSubmit(){
     $("button[name=table-btn-input-option-finish]").unbind().on("click", function () {
         var th = $(this);
         var title = $(this).parent().parent().find("input[name=title]").val();
-        var taskId = taskOptionModel.data('taskid');
+        var taskId = taskOptionModel.attr('data-taskid');
         if (!title || !taskId) {
             alert('添加内容不能为空');
             return false;
@@ -55,7 +55,7 @@ function inputOptionSubmit(){
 }//完成任务
 function taskOptionFinish(){
     $("button[name=table-btn-option-finish]").unbind().on("click",function(){
-        var taskOptionId = $(this).data('taskoptionid');
+        var taskOptionId = $(this).attr('data-taskoptionid');
         var data = {
             task_option_id:taskOptionId,
             status:2
@@ -77,7 +77,7 @@ function taskOptionFinish(){
 
 function undoTaskOption(){
     $("button[name=table-btn-option-undo]").unbind().on("click",function(){
-        var taskOptionId = $(this).data('taskoptionid');
+        var taskOptionId = $(this).attr('data-taskoptionid');
         var data = {
             task_option_id:taskOptionId,
             status:1
@@ -101,7 +101,7 @@ function undoTaskOption(){
 function deleteTaskOption(){
     $("button[name=table-btn-option-delete]").unbind().on('click',function(){
         if(confirm('确定要删除任务吗？')){
-            var taskOptionId = $(this).data('taskoptionid');
+            var taskOptionId = $(this).attr('data-taskoptionid');
             var data = {
                 task_option_id:taskOptionId,
             };
