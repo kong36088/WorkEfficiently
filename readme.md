@@ -16,4 +16,4 @@ php index.php migrate
 php index.php seeder start
 ```
 
-默认帐号密码为`root root`
+(DEMO)[http://todo.jwlchina.cn]
