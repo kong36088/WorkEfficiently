@@ -16,4 +16,4 @@ php index.php migrate
 php index.php seeder start
 ```
 
-(DEMO)[http://todo.jwlchina.cn]
+[DEMO](http://todo.jwlchina.cn)
