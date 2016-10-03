@@ -4,10 +4,17 @@
 	<meta charset="utf-8">
 	<title>小工具注册</title>
 	<meta name="keywords" content="William的小工具"/>
-	<meta name="description" content="一个提升工作效率的工具"/>
-	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<meta name="description" content="">
-	<meta name="author" content="">
+	<meta name="viewport" content="width=device-width,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no" />
+
+	<meta charset="utf-8">
+	<meta content="yes" name="apple-mobile-web-app-capable">
+	<meta content="yes" name="apple-touch-fullscreen">
+	<meta content="telephone=no" name="format-detection">
+	<meta content="black" name="apple-mobile-web-app-status-bar-style">
+	<meta name="author" content="todo.jwlchina.cn">
+	<meta name="revisit-after" content="1 days">
+	<meta name="keywords" content="todo tool">
+	<meta name="description" content="todo tool">
 
 	<!-- CSS -->
 	<link rel="stylesheet" href="{{base_url('/static')}}/css/login/reset.css">
