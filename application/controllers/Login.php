@@ -42,7 +42,9 @@ class Login extends CI_Controller
 			if (($userInfo = $this->user_model->validPass($username, $password))) {
 				//验证密码成功则更新登陆时间，并保存session
 				$this->user_model->loginSuccess($userInfo);
-				redirect('/todo/index');
+				if(current_url()==base_url('/login/login')){
+					redirect('/todo/index');
+				}
 			} else {
 				set_cookie('_user_login', '', time() - 3600);
 			}
