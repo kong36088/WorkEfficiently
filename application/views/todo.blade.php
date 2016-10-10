@@ -277,9 +277,9 @@
 					<i class="fa fa-check"></i></button>
 			</td>
 			<td>
-				<a href="javascript:void(0)" name="task-title" class="task-title" style="text-decoration: none;">
+				<p href="javascript:void(0)" name="task-title" class="task-title" style="text-decoration: none;">
 					${title}
-				</a>
+				</p>
 			</td>
 			<td width="10px;">
 				<button href="javascript:void(0);" name="table-btn-expand" data-taskid="${id}" class="btn btn-circle btn-info"><i
