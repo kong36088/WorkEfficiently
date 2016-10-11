@@ -160,5 +160,5 @@ $config = array(
 	),
 );
 
-$config['error_prefix'] = ' ';
-$config['error_suffix'] = ' ';
+$config['error_prefix'] = '';
+$config['error_suffix'] = '';
