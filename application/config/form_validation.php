@@ -2,10 +2,6 @@
 
 $CI =& get_instance();
 
-$config['error_prefix'] = '';
-$config['error_suffix'] = '';
-
-
 $config = array(
 	'login/login' => array(
 		array(
@@ -163,3 +159,6 @@ $config = array(
 		),
 	),
 );
+
+$config['error_prefix'] = ' ';
+$config['error_suffix'] = ' ';
