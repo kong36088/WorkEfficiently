@@ -20,5 +20,7 @@ php index.php seeder start
 
 
 测试帐号：
-username: test
-password: test
+`username: test`
+
+
+`password: test`
