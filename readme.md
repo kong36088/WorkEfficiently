@@ -17,3 +17,8 @@ php index.php seeder start
 ```
 
 [DEMO](http://todo.jwlchina.cn)
+
+
+测试帐号：
+username: test
+password: test
