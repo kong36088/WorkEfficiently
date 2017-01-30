@@ -120,7 +120,10 @@
 						<a href="{{base_url('/count/index')}}"><i class="fa fa-dashboard fa-fw"></i> 清单统计</a>
 					</li>
 					<li>
-						<a href="{{base_url('/todo/index')}}"><i class="fa fa-dashboard fa-fw"></i> 任务清单</a>
+						<a href="{{base_url('/todo/index')}}"><i class="fa fa-list-alt fa-fw"></i> 任务清单</a>
+					</li>
+					<li>
+						<a href="{{base_url('/timer/index')}}"><i class="fa fa-clock-o fa-fw"></i> 时钟</a>
 					</li>
 
 				</ul>
