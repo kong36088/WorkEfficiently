@@ -14,9 +14,6 @@ class Login extends CI_Controller
 		parent::__construct();
 		$this->load->helper('view');
 
-		$this->load->library('encryption');
-		$this->encryption->initialize(array('driver' => 'openssl'));
-
 		$this->load->model('user_model');
 	}
 
@@ -31,23 +28,11 @@ class Login extends CI_Controller
 	 */
 	public function login()
 	{
-		//验证记住登陆
-		$remember = get_cookie('_user_login');
-		$remember = $this->encryption->decrypt($remember);
-		if (!empty($remember)) {
-			$userInfo = json_decode($remember, TRUE);
-
-			$username = $userInfo['username'];
-			$password = $userInfo['password'];
-			if (($userInfo = $this->user_model->validPass($username, $password))) {
-				//验证密码成功则更新登陆时间，并保存session
-				$this->user_model->loginSuccess($userInfo);
-				if(current_url()==base_url('/login/login')){
-					redirect('/todo/index');
-				}
-			} else {
-				set_cookie('_user_login', '', time() - 3600);
+		if(check_remember_login()){
+			if(current_url()==base_url('/login/login')){
+				redirect('/todo/index');
 			}
+			return;
 		}
 
 		if ($this->input->method(TRUE) != 'POST') {

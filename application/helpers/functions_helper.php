@@ -143,3 +143,36 @@ if(!function_exists('get_sys_config')){
 		return $CI->config_model->getConfig($_SESSION['we_user']['id'],$key);
 	}
 }
+
+if(!function_exists('check_login')){
+	/**
+	 * 验证是否记住登陆
+	 * @return bool
+	 */
+	function check_remember_login(){
+		$CI = &get_instance();
+
+		$CI->load->library('encryption');
+		$CI->encryption->initialize(array('driver' => 'openssl'));
+		$CI->load->model('user_model');
+
+		//验证记住登陆
+		$remember = get_cookie('_user_login');
+		$remember = $CI->encryption->decrypt($remember);
+		if (!empty($remember)) {
+			$userInfo = json_decode($remember, TRUE);
+
+			$username = $userInfo['username'];
+			$password = $userInfo['password'];
+			if (($userInfo = $CI->user_model->validPass($username, $password))) {
+				//验证密码成功则更新登陆时间，并保存session
+				$CI->user_model->loginSuccess($userInfo);
+				return TRUE;
+			} else {
+				set_cookie('_user_login', '', time() - 3600);
+				return FALSE;
+			}
+		}
+		return FALSE;
+	}
+}
