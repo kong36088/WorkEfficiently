@@ -14,18 +14,23 @@ if (!defined('BASEPATH')) exit('No direct script access allowed');
  */
 class WE_Controller extends CI_Controller
 {
-	public $user;
+    public $user;
 
-	public function __construct()
-	{
-		parent::__construct();
+    public function __construct()
+    {
+        parent::__construct();
 
-		$this->user = $this->session->userdata('we_user');
+        $user = $this->session->userdata('we_user');
+        if (empty($user['username'])) {
+            //验证记住登陆
+            if (!check_remember_login()) {
 
-		if (empty($this->user['username'])) {
-			$this->session->unset_userdata('we_user');
-			redirect('/login/login');
-			return;
-		}
-	}
+                $this->session->unset_userdata('we_user');
+                redirect('/login/login');
+                return;
+            }
+        }
+
+        $this->user = $this->session->userdata('we_user');
+    }
 }
